@@ -72,7 +72,6 @@ Page {
                 }
             }
 
-
             // Get hotspot password
             Label {
                 x: Theme.paddingLarge
@@ -89,21 +88,26 @@ Page {
                 }
             }
 
-
+            Label {
+                x: Theme.paddingLarge
+                text: "bytes received: " + counter.bytesReceived
+            }
+            Label {
+                x: Theme.paddingLarge
+                text: "bytes sent: " + counter.bytesTransmitted
+            }
+            Label {
+                x: Theme.paddingLarge
+                text: "time online: " + counter.secondsOnline
+            }
 
             Button {
                 id: button_enable
-                text: "Enable HotSpot"
+                text: (app.hotspot_enabled ? "Disable" : "Enable") + " HotSpot"
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 onClicked: {
-                    // trigger timers to actually do the job
-                    app.enable_timer = !app.hotspot_enabled // enable if it was'nt on
-                    app.disable_timer = app.hotspot_enabled // disable if it was on
-                    app.hotspot_enabled = !app.hotspot_enabled
-
-                    // change status display
-                    button_enable.text = (app.hotspot_enabled ? "Disable" : "Enable") + " HotSpot"
+                    app.toggleHotspot()
                 }
             }
         }

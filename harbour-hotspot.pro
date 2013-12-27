@@ -23,8 +23,7 @@ OTHER_FILES += qml/harbour-hotspot.qml \
     rpm/harbour-hotspot.spec \
     rpm/harbour-hotspot.yaml \
     harbour-hotspot.desktop \
-    qml/pages/HotSpot.qml \
-    src/tethering.js
+    qml/pages/HotSpot.qml
 
 HEADERS += \
     src/tethering.h

@@ -20,10 +20,19 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
+    CoverActionList {
+        id: coverActions
+
+        CoverAction {
+            iconSource: app.hotspot_enabled ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
+            onTriggered: app.toggleHotspot()
+        }
+    }
+
     Label {
         id: label
         anchors.centerIn: parent
-        text: "Hotspot: " + (app.hotspot_enabled ? "Enabled" : "Disabled")
+        text: "Hotspot: " + (app.hotspot_enabled ? "Enabled" : "Disabled") + "<br>tx: " + counter.bytesTransmitted + "<br>rx: " + counter.bytesReceived
     }
 }
 
