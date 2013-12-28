@@ -90,15 +90,15 @@ Page {
 
             Label {
                 x: Theme.paddingLarge
-                text: "bytes received: " + counter.bytesReceived
+                text: "bytes received: " + tethering.bytesReceived
             }
             Label {
                 x: Theme.paddingLarge
-                text: "bytes sent: " + counter.bytesTransmitted
+                text: "bytes sent: " + tethering.bytesTransmitted
             }
             Label {
                 x: Theme.paddingLarge
-                text: "time online: " + counter.secondsOnline
+                text: "time online: " + tethering.secondsOnline
             }
 
             Button {

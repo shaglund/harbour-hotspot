@@ -25,14 +25,12 @@
 #include <QtGlobal>
 #include <QtQml>
 #include <QQmlExtensionPlugin>
-#include <connman-qt5/counter.h>
 
 #include "tethering.h"
 
 int main(int argc, char *argv[])
 {
     qmlRegisterType<Tethering>("harbour.hotspot.tethering",1,0,"Tethering");
-    qmlRegisterType<Counter>("harbour.hotspot.tethering",1,0,"Counter");
     return SailfishApp::main(argc, argv);
 }
 

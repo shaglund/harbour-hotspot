@@ -27,18 +27,40 @@
 
 #include<connman-qt5/networkmanager.h>
 #include<connman-qt5/networktechnology.h>
+#include<connman-qt5/counter.h>
 
 class Tethering : public QObject {
     Q_OBJECT
+    Q_PROPERTY(quint32 bytesReceived READ bytesReceived NOTIFY bytesReceivedChanged)
+    Q_PROPERTY(quint32 bytesTransmitted READ bytesTransmitted NOTIFY bytesTransmittedChanged)
+    Q_PROPERTY(quint32 secondsOnline READ secondsOnline NOTIFY secondsOnlineChanged)
+
 public:
-    explicit Tethering(QObject* parent = 0) : QObject(parent) {
-        manager = new NetworkManager(this);
-    }
+    explicit Tethering(QObject* parent = 0);
 
     Q_INVOKABLE void enable_tethering(QString ssid, QString passwd);
     Q_INVOKABLE void disable_tethering();
+
+    quint32 bytesReceived() const;
+    quint32 bytesTransmitted() const;
+    quint32 secondsOnline() const;
+
 private:
     QPointer<NetworkManager> manager;
+    QPointer<Counter> counter;
+    quint32 received, initial_received;
+    quint32 transmitted, initial_transmitted;
+    quint32 seconds, initial_seconds;
+
+signals:
+    void bytesReceivedChanged(quint32 bytesRx);
+    void bytesTransmittedChanged(quint32 bytesTx);
+    void secondsOnlineChanged(quint32 seconds);
+
+private slots:
+    void updateBytesReceived(quint32 bytes);
+    void updateBytesTransmitted(quint32 bytes);
+    void updateSecondsOnline(quint32 secs);
 };
 
 #endif // TETHERING_H

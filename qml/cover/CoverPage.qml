@@ -32,7 +32,7 @@ CoverBackground {
     Label {
         id: label
         anchors.centerIn: parent
-        text: "Hotspot: " + (app.hotspot_enabled ? "Enabled" : "Disabled") + "<br>tx: " + counter.bytesTransmitted + "<br>rx: " + counter.bytesReceived
+        text: "Hotspot: " + (app.hotspot_enabled ? "Enabled" : "Disabled") + "<br>tx: " + tethering.bytesTransmitted + "<br>rx: " + tethering.bytesReceived
     }
 }
 

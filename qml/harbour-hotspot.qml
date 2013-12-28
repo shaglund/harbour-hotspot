@@ -42,10 +42,6 @@ ApplicationWindow
         id: tethering
     }
 
-    Counter {
-        id: counter
-    }
-
     function toggleHotspot() {
         // trigger timers to actually do the job
         app.enable_timer = !app.hotspot_enabled // enable if it was'nt on
@@ -62,8 +58,6 @@ ApplicationWindow
             app.enable_timer = false
 
             tethering.enable_tethering(app.hotspot_name, app.hotspot_passwd)
-            counter.interval = 5
-            counter.running = true
 
             console.log('enabled tethering')
         }
@@ -77,7 +71,6 @@ ApplicationWindow
             app.disable_timer = false
 
             tethering.disable_tethering()            
-            counter.running = false
 
             console.log('disabled tethering')
         }

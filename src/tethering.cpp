@@ -18,6 +18,14 @@
 
 #include "tethering.h"
 
+Tethering::Tethering(QObject *parent) : QObject(parent) {
+    manager = new NetworkManager(this);
+    counter = new Counter(this);
+    connect(counter, SIGNAL(bytesReceivedChanged(quint32)), this, SLOT(updateBytesReceived(quint32)));
+    connect(counter, SIGNAL(bytesTransmittedChanged(quint32)), this, SLOT(updateBytesTransmitted(quint32)));
+    connect(counter, SIGNAL(secondsOnlineChanged(quint32)), this, SLOT(updateSecondsOnline(quint32)));
+}
+
 void Tethering::disable_tethering() {
     // Get the wifi technology
     NetworkTechnology* wifi = manager->getTechnology("wifi");
@@ -29,6 +37,8 @@ void Tethering::disable_tethering() {
 
     // Disable tethering
     wifi->setTethering(false);
+    // Stop counter
+    counter->setRunning(false);
 
     std::cout << "Disabled tethering" << std::endl;
 }
@@ -47,6 +57,46 @@ void Tethering::enable_tethering(QString ssid, QString passwd) {
     wifi->setTetheringPassphrase(passwd);
     wifi->setTethering(true);
 
+    // Initialize and start counter
+    received = transmitted = seconds = 0;
+    initial_received = counter->bytesReceived();
+    initial_transmitted = counter->bytesTransmitted();
+    initial_seconds = counter->secondsOnline();
+    counter->setRunning(true);
+
     std::cout << "Enabled tethering" << std::endl;
     std::cout << ssid.toStdString() << ":" << passwd.toStdString() << std::endl;
+}
+
+quint32 Tethering::bytesReceived() const
+{
+    return received;
+}
+
+quint32 Tethering::bytesTransmitted() const
+{
+    return transmitted;
+}
+
+quint32 Tethering::secondsOnline() const
+{
+    return seconds;
+}
+
+void Tethering::updateBytesReceived(quint32 bytes)
+{
+    received = bytes - initial_received;
+    emit bytesReceivedChanged(received);
+}
+
+void Tethering::updateBytesTransmitted(quint32 bytes)
+{
+    transmitted = bytes - initial_transmitted;
+    emit bytesTransmittedChanged(transmitted);
+}
+
+void Tethering::updateSecondsOnline(quint32 secs)
+{
+    seconds = secs - initial_seconds;
+    emit secondsOnlineChanged(seconds);
 }
